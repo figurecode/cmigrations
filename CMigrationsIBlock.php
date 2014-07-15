@@ -32,21 +32,16 @@ class CMigrationsIBlock extends CMigrations
 		/**
 		 * @var array       $arResult
 		 * @var CIBlockType $obBlockType
-		 * @var CDatabase   $obDataBase
 		 */
 		$arResult = array(
 			'RESULT' => 0,
 			'LOG' => ''
 		);
 		$obBlockType = new CIBlockType;
-		$obDataBase = new CDatabase();
 
 		$arResult['RESULT'] = $obBlockType->Add($arNewTypeFields);
 		if (!$arResult['RESULT']) {
-			$obDataBase->Rollback();
 			$arResult['LOG'] = 'Error: '.$obBlockType->LAST_ERROR.'<br>';
-		} else {
-			$obDataBase->Commit();
 		}
 
 		return $arResult;
