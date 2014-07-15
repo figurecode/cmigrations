@@ -21,13 +21,45 @@ class CMigrationsIBlock extends CMigrations
 
 
 	/**
+	 * Метод newType добавляет новый тип информационных блоков.
+	 *
+	 * @param $arNewTypeFields
+	 *
+	 * @return array - Массив вида array('RESULT' => bool, 'LOG' => string);
+	 */
+	public function newType($arNewTypeFields)
+	{
+		/**
+		 * @var array       $arResult
+		 * @var CIBlockType $obBlockType
+		 * @var CDatabase   $obDataBase
+		 */
+		$arResult = array(
+			'RESULT' => 0,
+			'LOG' => ''
+		);
+		$obBlockType = new CIBlockType;
+		$obDataBase = new CDatabase();
+
+		$arResult['RESULT'] = $obBlockType->Add($arNewTypeFields);
+		if (!$arResult['RESULT']) {
+			$obDataBase->Rollback();
+			$arResult['LOG'] = 'Error: '.$obBlockType->LAST_ERROR.'<br>';
+		} else {
+			$obDataBase->Commit();
+		}
+
+		return $arResult;
+	}
+
+
+	/**
 	 * Метод newBlock добавляет новый информационный блок.
 	 *
 	 * @param array $arNewBlockFields - массив параметров инфоблока
 	 *
 	 * @return array - Массив вида array('RESULT' => int, 'LOG' => string);
 	 */
-
 	public function newBlock($arNewBlockFields)
 	{
 		/**
