@@ -17,7 +17,7 @@ class CMigrations
 	 *
 	 * @return bool
 	 */
-	private function initModules($strModuleName)
+	public function initModules($strModuleName)
 	{
 		return CModule::IncludeModule($strModuleName) ? true : false;
 	}
